@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('#json_form').submit(function(){
+                    event.preventDefault();
+                    var url = $('#json_url').val();
+                    $.ajax(url).done(function(blob){
+                        var parsed_blob = $.parseJSON(blob);
+                        for(var i=0; i<parsed_blob["items"].length; i++){
+                            var li = "<li>";
+
+                            if (parsed_blob["items"][i]["done"]) {
+                                li += "DONE: ";
+                            }else{
+                                li += "TODO: ";
+                            }
+
+                            li += parsed_blob["items"][i]["description"];
+                            li += "</li>";
+
+                            $('#todo_list').append(li);
+                        }
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+    <h1>UROP Coding Task</h1>
+    <b>Enter JSON URL here:</b>
+    <form id="json_form">
+        <input type="text" id="json_url" name="json_url">
+        <input type="submit" value="load">
+    </form>
+
+    <br>
+
+    <b>TODO List:</b>
+    <ul id="todo_list">
+    </ul>    
+    </body>
+</html>
