@@ -34,23 +34,9 @@ function Control() {
 Control.prototype.listen = function(filter) {
     var control = this;
 
-    if (filter === undefined) {    
-        this.network.queryKeys(function(events){control.updateKeys(events)});
-        this.network.queryMice(function(events){control.updateMice(events)});
-        this.network.queryShot(function(events){control.updateShot(events)});
-    }
-
-    if (filter === "Keys") {
-        this.network.queryKeys(function(events){control.updateKeys(events)});
-    }
-
-    if (filter === "Mice") {
-        this.network.queryMice(function(events){control.updateMice(events)});
-    }
-
-    if (filter === "Shot") {
-        this.network.queryShot(function(events){control.updateShot(events)});
-    }
+    this.network.queryKeys(function(events){control.updateKeys(events)});
+    this.network.queryMice(function(events){control.updateMice(events)});
+    this.network.queryShot(function(events){control.updateShot(events)});
 }
 
 Control.prototype.handleKey = function(event, isDown) {
@@ -185,11 +171,6 @@ Control.prototype.update = function(events, context) {
             }
         }
     }
-
-    //Debug Only
-    this.queue = queue;
-
-    this.listen(context);
 }
 
 Control.prototype.updateKeys = function(events) {
@@ -227,6 +208,8 @@ Control.prototype.tick = function() {
     }
 
     // Update data 
+    this.tanks[tank].process(this.shots);
+
     for (tank in this.tanks) {
         this.tanks[tank].animate(this.render);
     }

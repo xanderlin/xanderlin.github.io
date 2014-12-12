@@ -19,9 +19,9 @@ Render.prototype.bindCamera = function(tank) {
     this.camera = function() {
         render.cyaw = tank.rTurret;
 
-        render.cxPos = tank.xPos;
+        render.cxPos = tank.xPos + 5 * Math.sin(this.degToRad(render.cyaw));
         render.cyPos = 1.5;
-        render.czPos = tank.zPos;
+        render.czPos = tank.zPos + 5 * Math.cos(this.degToRad(render.cyaw));
     }
 }
 

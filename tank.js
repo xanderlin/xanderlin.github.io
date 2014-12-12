@@ -3,6 +3,8 @@ function Tank(control) {
     this.rTurret = 0;
     this.rBody = 0;
 
+    this.hitbox = 0.75;
+
     this.speed = 0;
 
     this.ytRate = 0;
@@ -54,7 +56,27 @@ Tank.prototype.moveBody = function(e) {
     this.yawRate = 0.1 * e.yaw;
     this.speed = 0.003 * e.thrust;
 
-    if (e.timestamp != null) this.lastTime = e.timestamp;
+    // if (e.timestamp != null) this.lastTime = e.timestamp;
+}
+
+Tank.prototype.process = function(shots) {
+    for (key in shots) {
+        var shot = shots[key];
+
+        var dX = this.xPos - shot.xPos;
+        var dY = this.yPos - shot.yPos;
+        var dZ = this.zPos - shot.zPos;
+
+        var dist = Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2) + Math.pow(dZ, 2));
+
+        if (dist < this.hitbox) {
+            console.log("Another one bites the dust.");
+
+            // Deal with your death. Isn't that tragic?
+        }
+    }
+
+    return false;
 }
 
 Tank.prototype.initBuffers = function(render){

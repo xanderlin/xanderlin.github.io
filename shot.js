@@ -1,8 +1,11 @@
 function Shot(render, e) {
     this.speed = 0.01;
 
-    this.pitch = e.gunPitch;
+    this.pitch = 45;
     this.yaw = e.rTurret;
+
+    this.vSpeed = this.speed * Math.sin(render.degToRad(this.pitch));
+    this.hSpeed = this.speed * Math.cos(render.degToRad(this.pitch));
 
     this.rBody = 0;
 
@@ -63,11 +66,12 @@ Shot.prototype.animate = function(render) {
         var elapsed = timeNow - this.lastTime;
 
         if (this.speed != 0) {
-            this.xPos -= Math.sin(render.degToRad(this.yaw)) * this.speed * elapsed;
-            this.zPos -= Math.cos(render.degToRad(this.yaw)) * this.speed * elapsed;
-        }
+            this.xPos -= Math.sin(render.degToRad(this.yaw)) * this.hSpeed * elapsed;
+            this.zPos -= Math.cos(render.degToRad(this.yaw)) * this.hSpeed * elapsed;
+            this.yPos += this.vSpeed * elapsed;
 
-        this.rBody += (90 * elapsed) / 1000.0;
+            this.vSpeed -= 0.00001 * elapsed;
+        }
     }
 
     this.lastTime = timeNow;
