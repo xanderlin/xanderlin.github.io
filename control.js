@@ -26,7 +26,7 @@ function Control() {
 
     // Set id...?
     this.game_id = "test_" + Math.floor((Math.random() * 10000) + 1);
-    this.game_id = "test_mp_10";
+    this.game_id = "test_mp_12";
     this.id = "tank_" + Math.floor((Math.random() * 10000) + 1);
 }
 
