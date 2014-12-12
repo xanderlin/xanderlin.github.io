@@ -1,7 +1,8 @@
 function Shot(render, e) {
+    this.tank_id = e.tank_id;
     this.speed = 0.01;
 
-    this.pitch = 45;
+    this.pitch = e.gunPitch;
     this.yaw = e.rTurret;
 
     this.vSpeed = this.speed * Math.sin(render.degToRad(this.pitch));

@@ -26,7 +26,7 @@ function Control() {
 
     // Set id...?
     this.game_id = "test_" + Math.floor((Math.random() * 10000) + 1);
-    this.game_id = "test_mp_10"
+    this.game_id = "test_mp_10";
     this.id = "tank_" + Math.floor((Math.random() * 10000) + 1);
 }
 
@@ -155,7 +155,7 @@ Control.prototype.update = function(events, context) {
 
             if (!(tank_id in this.tanks)) {
                 console.log("A new challenger appears!");
-                this.tanks[tank_id] = new Tank(this);
+                this.tanks[tank_id] = new Tank(this, tank_id);
             }
 
             if (context === "Keys") {
@@ -208,7 +208,12 @@ Control.prototype.tick = function() {
     }
 
     // Update data 
-    this.tanks[tank].process(this.shots);
+    for (tank in this.tanks) {
+        var shot = this.tanks[tank].process(this.shots);
+        if (shot) {
+            console.log(tank + " was hit by " + shot.tank_id + ".");
+        }
+    }
 
     for (tank in this.tanks) {
         this.tanks[tank].animate(this.render);
@@ -242,7 +247,7 @@ Control.prototype.start = function() {
 
     this.render.initShaders();
     this.map.initBuffers(this.render);
-    this.tanks[this.id] = new Tank(this);
+    this.tanks[this.id] = new Tank(this, this.id);
 
     this.render.initCanvas();
     this.render.bindCamera(this.tanks[this.id]);
